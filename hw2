@@ -1,0 +1,95 @@
+package main
+
+import "fmt"
+
+// Структура стека
+type Stack struct {
+ items []interface{}
+}
+
+// Добавление элемента в стек
+func (s *Stack) Add(item interface{}) {
+ s.items = append(s.items, item)
+}
+
+// Извлечение элемента из стека (LIFO - last in, first out)
+func (s *Stack) Pop() (interface{}, error) {
+ if len(s.items) == 0 {
+  return nil, fmt.Errorf("стек пуст")
+ }
+ item := s.items[len(s.items)-1]
+ s.items = s.items[:len(s.items)-1]
+ return item, nil
+}
+
+// Проверка наличия элемента в стеке
+func (s *Stack) IsExist(item interface{}) bool {
+ for _, v := range s.items {
+  if v == item {
+   return true
+  }
+ }
+ return false
+}
+
+// Структура очереди
+type Queue struct {
+ items []interface{}
+}
+
+// Добавление элемента в очередь
+func (q *Queue) Add(item interface{}) {
+ q.items = append(q.items, item)
+}
+
+// Извлечение элемента из очереди (FIFO - first in, first out)
+func (q *Queue) Pop() (interface{}, error) {
+ if len(q.items) == 0 {
+  return nil, fmt.Errorf("очередь пуста")
+ }
+ item := q.items[0]
+ q.items = q.items[1:]
+ return item, nil
+}
+
+// Проверка наличия элемента в очереди
+func (q *Queue) IsExist(item interface{}) bool {
+ for _, v := range q.items {
+  if v == item {
+   return true
+  }
+ }
+ return false
+}
+
+func main() {
+ // Пример использования стека
+ stack := Stack{}
+ stack.Add(1)
+ stack.Add("hello")
+ stack.Add(true)
+
+ item, err := stack.Pop()
+ if err != nil {
+  fmt.Println(err)
+ } else {
+  fmt.Println("Извлеченный элемент:", item)
+ }
+
+ fmt.Println("Существует ли элемент 'hello' в стеке?", stack.IsExist("hello"))
+
+ // Пример использования очереди
+ queue := Queue{}
+ queue.Add(1)
+ queue.Add("world")
+ queue.Add(false)
+
+ item, err = queue.Pop()
+ if err != nil {
+  fmt.Println(err)
+ } else {
+  fmt.Println("Извлеченный элемент:", item)
+ }
+
+ fmt.Println("Существует ли элемент 'world' в очереди?", queue.IsExist("world"))
+}
